@@ -15,7 +15,7 @@ def only(x: Iterable[T]) -> T:
     i = next(itr, None)
 
     if i is None:
-        raise ValueError("Collection is empty; must contain exactly  element")
+        raise ValueError("Collection is empty; must contain exactly 1 element")
     if next(itr, None) is not None:
         raise ValueError(
             "Collection has multiple elements; must contain exactly 1 element"

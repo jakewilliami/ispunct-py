@@ -9,9 +9,17 @@ A small Python library for checking whether a character is a punctuation charact
 ```python
 from ispunct import ispunct
 
-assert ispunct('?')
-assert not ispunct('a')
-assert ispunct('‽')
+assert ispunct("?")
+assert not ispunct("a")
+assert ispunct("‽")
+```
+
+## Using `ispunct` as a Library
+
+This package is not published on PyPI, but you can use it from Git.  For example, if using [UV](https://github.com/astral-sh/uv/) for dependency management, you could write:
+
+```commandline
+$ uv add "ispunct @ git+https://github.com/jakewilliami/ispunct-py"
 ```
 
 ## Notes on Internal Functionality

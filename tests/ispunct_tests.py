@@ -8,15 +8,15 @@ import ispunct
 @pytest.fixture
 def non_punct_chars() -> Iterable[str]:
     def genchars() -> Iterable[str]:
-        yield from ('א', 'ﺵ')
-        yield from ('a', 'd', 'j', 'y', 'z')
-        yield from ('α', 'β', 'γ', 'δ', 'ф', 'я')
-        yield from ('A', 'D', 'J', 'Y', 'Z')
-        yield from ('Δ', 'Γ', 'Π', 'Ψ', 'Ж', 'Д')
-        yield 'ǅ'
-        yield from ('0', '1', '5', '9')
-        yield from ('∪', '∩', '⊂', '⊃', '√', '€', '¥', '↰', '△')
-        yield from ('٣', '٥', '٨', '¹', 'ⅳ')
+        yield from ("א", "ﺵ")
+        yield from ("a", "d", "j", "y", "z")
+        yield from ("α", "β", "γ", "δ", "ф", "я")
+        yield from ("A", "D", "J", "Y", "Z")
+        yield from ("Δ", "Γ", "Π", "Ψ", "Ж", "Д")
+        yield "ǅ"
+        yield from ("0", "1", "5", "9")
+        yield from ("∪", "∩", "⊂", "⊃", "√", "€", "¥", "↰", "△")
+        yield from ("٣", "٥", "٨", "¹", "ⅳ")
 
     yield genchars()
 
@@ -24,17 +24,17 @@ def non_punct_chars() -> Iterable[str]:
 @pytest.fixture
 def punct_chars() -> Iterable[str]:
     def genchars() -> Iterable[str]:
-        yield from ('(', ')', '~', '$')
-        yield from ('.', ',', ';', ':', '&')
-        yield from ('‡', '؟', '჻', '§')
+        yield from ("(", ")", "~", "$")
+        yield from (".", ",", ";", ":", "&")
+        yield from ("‡", "؟", "჻", "§")
 
     yield genchars()
 
 
 def test_ispunct_basic():
-    assert ispunct.ispunct('?')
-    assert not ispunct.ispunct('a')
-    assert ispunct.ispunct('‽')
+    assert ispunct.ispunct("?")
+    assert not ispunct.ispunct("a")
+    assert ispunct.ispunct("‽")
 
 
 def test_ispunct_extended_non_punct_chars(non_punct_chars: Iterable[str]):

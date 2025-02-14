@@ -1,7 +1,7 @@
 # Main method
-from ispunct.ispunct import ispunct
+from src.ispunct.ispunct import ispunct
 
 # Helpers
-from ispunct import bits
-from ispunct import reinterpret
-from ispunct import unicode
+from src.ispunct import bits
+from src.ispunct import reinterpret
+from src.ispunct import unicode

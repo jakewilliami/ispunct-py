@@ -2,7 +2,7 @@ from typing import Iterable
 
 import pytest
 
-import ispunct
+from src import ispunct
 
 
 @pytest.fixture

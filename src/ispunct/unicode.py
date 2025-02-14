@@ -1,7 +1,7 @@
 import unicodedata
 
-from ispunct.bits import clo, cttz
-from ispunct.reinterpret import reinterpret_as_uint
+from src.ispunct.bits import clo, cttz
+from src.ispunct.reinterpret import reinterpret_as_uint
 
 CATEGORY_CODE_DATA = {
     "Cn": 0,

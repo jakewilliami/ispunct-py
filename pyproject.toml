@@ -9,7 +9,7 @@ readme = "README.md"
 requires-python = ">=3.11, <4.0.0"
 dependencies = []
 
-[dependecy-groups]
+[dependency-groups]
 dev = [
-    "pytest==8.3.3"
+    "pytest==8.3.3",
 ]

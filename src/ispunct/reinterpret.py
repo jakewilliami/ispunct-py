@@ -1,4 +1,4 @@
-from ispunct.utils import only
+from src.ispunct.utils import only
 
 
 def reinterpret_as_uint(c: str, bitwidth=32) -> int:

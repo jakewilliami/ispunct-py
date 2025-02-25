@@ -13,3 +13,6 @@ dependencies = []
 dev = [
     "pytest==8.3.3",
 ]
+
+[tool.pytest.ini_options]
+pythonpath = "src"

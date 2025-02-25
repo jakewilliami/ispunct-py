@@ -1,7 +1,7 @@
 import string
 
-from src.ispunct.unicode import UTF8PROC_CATEGORY_PC, UTF8PROC_CATEGORY_PO, category_code
-from src.ispunct.utils import only
+from ispunct.unicode import UTF8PROC_CATEGORY_PC, UTF8PROC_CATEGORY_PO, category_code
+from ispunct.utils import only
 
 
 def ispunct(c: str) -> int:

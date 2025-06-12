@@ -35,8 +35,10 @@ select = [
     "SIM",  # flake8-simplify
     "I",    # isort
 ]
-# ignore = ["B008"]
+ignore = [
+    # "B008",  # docs.astral.sh/ruff/rules/function-call-in-default-argument/
+]
 fixable = ["ALL"]
 
 [tool.ruff.lint.per-file-ignores]
-# "__init__.py" = ["F401"]  # Unused imports
+"__init__.py" = ["F401"]  # Unused imports

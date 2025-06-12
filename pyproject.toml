@@ -11,5 +11,32 @@ dependencies = []
 
 [dependency-groups]
 dev = [
-    "pytest==8.3.3",
+    "pip-audit>=2.9.0",
+    "pre-commit>=4.2.0",
+    "pytest>=8.3.3",
+    "ruff>=0.11.13",
 ]
+
+[tool.pytest.ini_options]
+pythonpath = "src"
+
+# Adapted from:
+#   https://github.com/scottzach1/Python-Injection-Framework/blob/ab4c1780/pyproject.toml
+
+[tool.ruff]
+line-length = 120
+
+[tool.ruff.lint]
+select = [
+    "E",    # pycodestyle
+    "F",    # Pyflakes
+    "UP",   # pyupgrade
+    "B",    # flake8-bugbear
+    "SIM",  # flake8-simplify
+    "I",    # isort
+]
+# ignore = ["B008"]
+fixable = ["ALL"]
+
+[tool.ruff.lint.per-file-ignores]
+# "__init__.py" = ["F401"]  # Unused imports

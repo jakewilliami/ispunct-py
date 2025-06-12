@@ -1,8 +1,5 @@
 # -*- mode: just -*-
 
-export_flags := "--no-hashes --no-emit-project --format=requirements-txt"
-audit_flags := "--desc --strict --progress-spinner=off"
-
 # Test project
 test:
     uv run pytest
@@ -13,12 +10,9 @@ fmt:
 
 # Audit project dependencies
 audit:
-    uv export {{export_flags}} > requirements.txt
-    uvx pip-audit {{audit_flags}} -r requirements.txt
-    # Alternatively:
-    #   uv tree
-    #   uv pip compile pyproject.toml -o requirements.txt
-    #   uvx pip-audit -r requirements.txt --fix
+    uv tree
+    uv pip compile pyproject.toml -o requirements.txt
+    uvx pip-audit -r requirements.txt --fix
 
 # Benchmark performance
 # bench:

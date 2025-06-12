@@ -1,4 +1,5 @@
-from typing import TypeVar, Iterable
+from collections.abc import Iterable
+from typing import TypeVar
 
 T = TypeVar("T")
 
@@ -17,8 +18,6 @@ def only(x: Iterable[T]) -> T:
     if i is None:
         raise ValueError("Collection is empty; must contain exactly 1 element")
     if next(itr, None) is not None:
-        raise ValueError(
-            "Collection has multiple elements; must contain exactly 1 element"
-        )
+        raise ValueError("Collection has multiple elements; must contain exactly 1 element")
 
     return i

@@ -1,0 +1,125 @@
+name: CI
+
+# Inspired by:
+#   github.com/scottzach1/Python-Injection-Framework/blob/ab4c1780/.github/workflows/pipeline.yml
+#
+# In particular, use of UV, Ruff, and Truffle Hog (TODO: do I need this?)
+
+# on:
+#   push:
+#     branches:
+#       - ${{ github.event.repository.default_branch }}
+#       - main
+#       - master
+#   pull_request:
+#     branches:
+#       - ${{ github.event.repository.default_branch }}
+#       - main
+#       - master
+
+on:
+  push:
+    branches:
+      - ${{ github.event.repository.default_branch }}
+    tags: ['*']
+  pull_request:
+
+jobs:
+  format:
+    name: Format
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository (${{ github.event.repository.default_branch }} TODO CHANGE NAME)
+        uses: actions/checkout@v4
+
+      - name: Install UV
+        uses: astral-sh/setup-uv@v4
+
+      - name: Install Python
+        run: uv python install
+
+      - name: Instantiate project
+        run: uv sync --dev
+
+      - name: Ruff (linting and formatting, using pre commit)
+        run: uv run pre-commit run --all
+
+      # TODO: DO I NEED THIS?
+      # Adapted from:
+      #   github.com/FluxML/Flux.jl/blob/7be1ca7a/.github/workflows/JuliaFormatter.yml
+      # - uses: dorny/paths-filter@v3
+      #   id: filter
+      #   with:
+      #     filters: |
+      #       python_file_change:
+      #         - added|modified: '**/*.jl'
+      # - name: Apply JuliaFormatter
+      #   run: |
+      #     just fmt
+      # - name: Check formatting diff
+      #   if: steps.filter.outputs.julia_file_change == 'true'
+      #   run: |
+      #     git diff --color=always --exit-code
+
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version:
+          - 3.11
+          - 3.12
+          - 3.13
+          # TODO: test on 3.x latext check-latest: true
+      fail-fast: false
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install UV
+        uses: astral-sh/setup-uv@v4
+
+      - name: Install Python
+        run: uv python install
+
+      - name: Instantiate project
+        run: uv sync --dev
+
+      - name: Run tests
+        run: uv run pytest
+
+  audit:
+    name: Supply Chain Security Audit
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install UV
+        uses: astral-sh/setup-uv@v4
+
+      - name: Install Python
+        run: uv python install
+
+      - name: Audit dependencies
+        run: |
+          uv export --no-hashes --no-emit-project --format=requirements-txt > requirements.txt
+          uvx pip-audit -r requirements.txt --desc --strict --progress-spinner=off --cache-dir=./pip-cache
+          # Alternatively:
+          #   uv tree
+          #   uv pip compile pyproject.toml -o requirements.txt
+          #   uvx pip-audit -r requirements.txt --fix
+
+  sniff:
+    name: Truffle Hog (Secret Sniffer)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Secret Scanning
+        uses: trufflesecurity/trufflehog@main
+        with:
+          extra_args: --results=verified,unknown

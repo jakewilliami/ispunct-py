@@ -1,25 +1,37 @@
-from collections.abc import Iterable
-from typing import TypeVar
-
-T = TypeVar("T")
-
-
-def only(x: Iterable[T]) -> T:
+def only(x: str) -> str:
     """
-    Helper method to return the one and only element of a collection `x`, and
-    throws a `ValueError` if the collection has zero or multiple elements.
+    Helper method to verify that the input `x` has only one element, and throws
+    a `TypeError` (albeit an inferred type error) if `x` has zero or multiple
+    elements.
 
-    Inspired by Julia's `only` function:
-      <https://github.com/JuliaLang/julia/blob/7fa26f01/base/iterators.jl#L1500-L1549>
+    This was previously written in a generalised form, inspired by Julia's
+    `only` function:
+      <https://github.com/jakewilliami/ispunct-py/blob/68e23c9/src/ispunct/utils.py>
+
+    This function has since (as of v1.0.1) been specialised in the interest of
+    more useful error messages.
+
+    Error messages inspired by unicode error messages in CPython:
+      <https://github.com/python/cpython/blob/9a21df7c/Python/bltinmodule.c#L2148-L2168>
+      <https://github.com/python/cpython/blob/9a21df7c/Modules/clinic/unicodedata.c.h#L178-L184>
     """
+    if not isinstance(x, str):
+        raise TypeError(
+            f"Expected string of length 1, but found {type(x).__name__}"
+        )
+
     itr = iter(x)
     i = next(itr, None)
 
     if i is None:
-        raise ValueError("Collection is empty; must contain exactly 1 element")
+        raise TypeError(
+            "Expected a single unicode character, but found an empty string"
+        )
+
     if next(itr, None) is not None:
-        raise ValueError(
-            "Collection has multiple elements; must contain exactly 1 element"
+        raise TypeError(
+            f"Expected a single unicode character, but found a string of "
+            f"length {len(x)}"
         )
 
     return i

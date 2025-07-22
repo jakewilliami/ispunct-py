@@ -80,3 +80,24 @@ def test_is_malformed():
     assert not ispunct.unicode.ismalformed(chr(18))
     assert not ispunct.unicode.ismalformed(chr(185))
     assert not ispunct.unicode.ismalformed(chr(6969))
+
+
+def test_errors_on_str():
+    with pytest.raises(TypeError):
+        # A multi-character string cannot be interpreted as a character literal
+        ispunct.ispunct("This is a str, not a character")
+
+    with pytest.raises(TypeError):
+        # Empty string is not allowed
+        ispunct.ispunct("")
+
+
+def test_errors_on_other_types():
+    with pytest.raises(TypeError):
+        ispunct.ispunct(420)
+
+    with pytest.raises(TypeError):
+        ispunct.ispunct(object())
+
+    with pytest.raises(TypeError):
+        ispunct.ispunct([])

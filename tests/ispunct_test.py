@@ -57,7 +57,9 @@ def test_ispunct_extended_punct_chars(punct_chars: Iterable[str]):
         assert ispunct.ispunct(c)
 
 
-def test_ispunct_non_standard_punct_chars(non_standard_punct_chars: Iterable[str]):
+def test_ispunct_non_standard_punct_chars(
+    non_standard_punct_chars: Iterable[str],
+):
     for c in non_standard_punct_chars:
         assert c not in string.punctuation
         assert ispunct.ispunct(c)

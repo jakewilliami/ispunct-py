@@ -50,7 +50,11 @@ def ismalformed(c: str) -> bool:
     u = reinterpret_as_uint(c, bitwidth=32)
     l1 = clo(u, bitwidth=32) << 3
     t0 = cttz(u, bitwidth=32) & 56
-    return (l1 == 8) | (l1 + t0 > 32) | (((u & 0x00C0C0C0) ^ 0x00808080) >> t0 != 0)
+    return (
+        (l1 == 8)
+        | (l1 + t0 > 32)
+        | (((u & 0x00C0C0C0) ^ 0x00808080) >> t0 != 0)
+    )
 
 
 def category_code(c: str) -> int:

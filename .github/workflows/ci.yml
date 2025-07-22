@@ -14,6 +14,22 @@ on:
   pull_request:
 
 jobs:
+  meta:
+    # Inspiration:
+    #   github.com/sharkdp/fd/blob/b7fe2ce9/.github/workflows/CICD.yml#L60-L65
+    name: Project Metadata
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - run: uv python install
+      - run: |
+          echo "name=$(uvx --from=toml-cli toml get --toml-path=pyproject.toml project.name)" | tee -a $GITHUB_OUTPUT
+          echo "version=$(uvx --from=toml-cli toml get --toml-path=pyproject.toml project.version)" | tee -a $GITHUB_OUTPUT
+    outputs:
+      name: ${{ steps.crate_metadata.outputs.name }}
+      version: ${{ steps.crate_metadata.outputs.version }}
+
   format:
     name: Format
     runs-on: ubuntu-latest
@@ -42,9 +58,11 @@ jobs:
     strategy:
       matrix:
         python-version:
-          - 3.11
-          - 3.12
-          - 3.13
+          - "3.9"
+          - "3.10"
+          - "3.11"
+          - "3.12"
+          - "3.13"
       fail-fast: false
     steps:
       - name: Check out repository
@@ -52,6 +70,8 @@ jobs:
 
       - name: Install UV
         uses: astral-sh/setup-uv@v4
+        with:
+          python-version: ${{ matrix.python-version }}
 
       - name: Install Python
         run: uv python install

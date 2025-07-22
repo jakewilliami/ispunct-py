@@ -1,27 +1,24 @@
 [project]
 name = "ispunct"
-version = "1.0.1"
+version = "1.0.2"
 description = "Small Python library to check if a character is a punctuation character"
 authors = [
     { name = "Jake W. Ireland", email = "jakewilliami@icloud.com" },
 ]
 readme = "README.md"
-requires-python = ">=3.11, <4.0.0"
+requires-python = ">=3.9, <4.0.0"
 dependencies = []
 
 [dependency-groups]
 dev = [
     "pip-audit>=2.9.0",
     "pre-commit>=4.2.0",
-    "pytest>=8.3.3",
-    "ruff>=0.11.13",
+    "pytest>=8.4.1",
+    "ruff>=0.12.4",
 ]
 
 [tool.pytest.ini_options]
 pythonpath = "src"
-
-# Adapted from:
-#   https://github.com/scottzach1/Python-Injection-Framework/blob/ab4c1780/pyproject.toml
 
 [tool.ruff]
 # https://peps.python.org/pep-0008/#maximum-line-length

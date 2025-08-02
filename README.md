@@ -18,7 +18,7 @@ assert ispunct("‽")
 
 This package is not published on PyPI, but you can use it from Git.  For example, if using [UV](https://github.com/astral-sh/uv/) for dependency management, you could write:
 
-```commandline
+```shell
 $ uv add "ispunct @ git+https://github.com/jakewilliami/ispunct-py"
 ```
 

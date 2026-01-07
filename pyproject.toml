@@ -9,6 +9,11 @@ readme = "README.md"
 requires-python = ">=3.9, <4.0.0"
 dependencies = []
 
+[project.urls]
+# https://github.com/patrick91/links-demo/blob/163034f
+Repository = "https://github.com/jakewilliami/ispunct-py"
+PyPI = "https://pypi.org/p/ispunct"
+
 [dependency-groups]
 dev = [
     "pip-audit>=2.9.0",

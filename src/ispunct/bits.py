@@ -8,7 +8,7 @@ def bitmask(bitwidth: int) -> int:
 
 def cttz(x: int, bitwidth=32) -> int:
     """
-    Count the number of trailing ones in the binary representation of the given
+    Count the number of trailing zeros in the binary representation of the given
     input, given a bitwidth (default: 32).
 
     Inspired by Julia's `trailing_zeros` function:

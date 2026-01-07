@@ -1,6 +1,6 @@
 [project]
 name = "ispunct"
-version = "1.0.3"
+version = "1.0.4"
 description = "Small Python library to check if a character is a punctuation character"
 authors = [
     { name = "Jake W. Ireland", email = "jakewilliami@icloud.com" },

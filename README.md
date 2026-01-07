@@ -16,10 +16,16 @@ assert ispunct("‽")
 
 ## Using `ispunct` as a Library
 
-This package is not published on PyPI, but you can use it from Git.  For example, if using [UV](https://github.com/astral-sh/uv/) for dependency management, you could write:
+This package is published on PyPI.  You can install it with PIP:
 
-```shell
-$ uv add "ispunct @ git+https://github.com/jakewilliami/ispunct-py"
+```commandline
+$ pip add ispunct
+```
+
+Or, if using [UV](https://github.com/astral-sh/uv/) for dependency management:
+
+```commandline
+$ uv add ispunct
 ```
 
 ## History

@@ -36,6 +36,12 @@ The origin of this project comes from an equivalent function to [Julia](https://
 
 This library also implements (and uses internally) bitwise functions to calculate the number of leading/trailing zeros/ones in the bitwise representation of a Python integer.  We also compute a Python integer that has the same bitpattern as a given character (i.e., simulating Julia's `bitcast`).  These are required in order to determine a character's category code.
 
+## Alternative Libraries
+
+This was written mostly as a proof of concept using bitwise operations on character codes.  You could derive similar functionality from the standard library [`unicodedata`](https://docs.python.org/3/library/unicodedata.html), or matching on character category with [`regex`](https://pypi.org/project/regex/) (see examples [here](https://github.com/jakewilliami/ispunct-py/issues/1#issuecomment-3717021835)).
+
+A spiritual sister package and successor to `ispunct` is [`strip-marks`](https://github.com/jakewilliami/strip-marks-py/), in which we further explore unicode operations in Python.
+
 ## Citation
 
 If your research depends on `ispunct`, please consider giving us a formal citation: [`citation.bib`](./citation.bib).

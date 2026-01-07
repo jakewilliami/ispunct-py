@@ -71,6 +71,41 @@ def test_ispunct_str_iterable_all():
     assert all(ispunct.ispunct(c) for c in "‡؟჻")
 
 
+def test_bitmask():
+    assert ispunct.bits.bitmask(0) == 0
+    assert ispunct.bits.bitmask(1) == 1
+    assert ispunct.bits.bitmask(3) == 0b111
+    assert ispunct.bits.bitmask(8) == 0xFF
+    assert ispunct.bits.bitmask(32) == 0xFFFFFFFF
+
+
+def test_cttz():
+    assert ispunct.bits.cttz(0, 32) == 32
+    assert ispunct.bits.cttz(1, 32) == 0
+    assert ispunct.bits.cttz(2, 32) == 1
+    assert ispunct.bits.cttz(0b1000, 32) == 3
+    assert ispunct.bits.cttz(0b101000, 32) == 3
+    assert ispunct.bits.cttz(0x80000000, 32) == 31
+
+
+def test_ctlz():
+    assert ispunct.bits.ctlz(0, 32) == 32
+    assert ispunct.bits.ctlz(1, 32) == 31
+    assert ispunct.bits.ctlz(2, 32) == 30
+    assert ispunct.bits.ctlz(0b1000, 32) == 28
+    assert ispunct.bits.ctlz(0xFFFFFFFF, 32) == 0
+    assert ispunct.bits.ctlz(0x80000000, 32) == 0
+
+
+def test_clo():
+    assert ispunct.bits.clo(0, 32) == 0
+    assert ispunct.bits.clo(0xFFFFFFFF, 32) == 32
+    assert ispunct.bits.clo(0xF0000000, 32) == 4
+    assert ispunct.bits.clo(0b11110000, 8) == 4
+    assert ispunct.bits.clo(0b01111111, 8) == 0
+    assert ispunct.bits.clo(0b11000000, 8) == 2
+
+
 def test_reinterpret():
     assert ispunct.reinterpret.reinterpret_as_uint(chr(18)) == 301989888
     assert ispunct.reinterpret.reinterpret_as_uint(chr(185)) == 3266904064

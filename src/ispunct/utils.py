@@ -1,3 +1,8 @@
+# https://python-patterns.guide/python/sentinel-object/
+# https://www.youtube.com/watch?v=pIRNZ5Pg5UY
+_STOP_ITERATION = object()
+
+
 def only(x: str) -> str:
     """
     Helper method to verify that the input `x` has only one element, and throws
@@ -21,14 +26,14 @@ def only(x: str) -> str:
         )
 
     itr = iter(x)
-    i = next(itr, None)
+    i = next(itr, _STOP_ITERATION)
 
-    if i is None:
+    if i is _STOP_ITERATION:
         raise TypeError(
             "Expected a single unicode character, but found an empty string"
         )
 
-    if next(itr, None) is not None:
+    if next(itr, _STOP_ITERATION) is not _STOP_ITERATION:
         raise TypeError(
             f"Expected a single unicode character, but found a string of "
             f"length {len(x)}"

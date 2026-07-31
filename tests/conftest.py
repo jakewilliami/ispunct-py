@@ -1,3 +1,4 @@
+import dataclasses
 import json
 import pathlib
 from collections.abc import Iterable
@@ -28,20 +29,6 @@ def non_standard_punct_chars() -> Iterable[str]:
     yield _non_standard_punct_chars()
 
 
-def _parse_hex(x: str) -> str:
-    # All input should be hex values
-    if isinstance(x, str):
-        # Type remark: this is unsafe in a sense as we assume that the string
-        # given is parseable into a hex integer!  E.g., looks like 0x...  This
-        # should be true for all test data.
-        #
-        # After it is parsed as an integer we need to convert it to a character
-        return chr(int(x, 16))
-
-    # Fallback: I don't know what to do with this!
-    raise TypeError(f"Cannot parse hex from {type(x).__name__!r}")
-
-
 @pytest.fixture
 def non_punct_chars() -> Iterable[str]:
     def genchars() -> Iterable[str]:
@@ -58,9 +45,60 @@ def non_punct_chars() -> Iterable[str]:
     yield genchars()
 
 
+def _parse_hex(x: str) -> str:
+    # All input should be hex values
+    if isinstance(x, str):
+        # Type remark: this is unsafe in a sense as we assume that the string
+        # given is parseable into a hex integer!  E.g., looks like 0x...  This
+        # should be true for all test data.
+        return int(x, 16)
+
+    # Fallback: I don't know what to do with this!
+    raise TypeError(f"Cannot parse hex from {type(x).__name__!r}")
+
+
+@dataclasses.dataclass(frozen=True)
+class CharInfo:
+    character: str
+    integer: int
+    trailing_zeros: int
+    leading_zeros: int
+    leading_ones: int
+    uint32: int
+    is_malformed: bool
+    category_code: int
+
+
+def _char_info_from_json(c: str, i: int, d: dict) -> CharInfo:
+    return CharInfo(
+        character=c,
+        integer=i,
+        trailing_zeros=d["tz"],
+        leading_zeros=d["lz"],
+        leading_ones=d["lo"],
+        uint32=d["ri"],
+        is_malformed=bool(d["im"]),
+        category_code=d["cc"],
+    )
+
+
 def _load_data(f: str) -> list[int | tuple[int, int]]:
-    data = [_parse_hex(i) for i in json.loads(f.read_text())]
-    return data
+    data = json.loads(f.read_text())
+
+    # Simple list like ["0x100", "0x101", ...]
+    if isinstance(data, list):
+        return [chr(_parse_hex(i)) for i in data]
+
+    # Dictionary structured with char information
+    if isinstance(data, dict):
+        parsed_data = {}
+
+        for key, value in data.items():
+            i = _parse_hex(key)
+            c = chr(i)
+            parsed_data[c] = _char_info_from_json(c, i, value)
+
+        return parsed_data
 
 
 @pytest.fixture(scope="session")

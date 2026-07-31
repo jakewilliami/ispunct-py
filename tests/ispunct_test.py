@@ -104,6 +104,17 @@ def test_category_code():
     assert ispunct.unicode.category_code(chr(69703)) == 18
 
 
+def test_bitwise_comprehensive(data):
+    for c, d in data.bitwise.items():
+        i = d.integer
+        assert ispunct.bits.cttz(i) == d.trailing_zeros
+        assert ispunct.bits.ctlz(i) == d.leading_zeros
+        assert ispunct.bits.clo(i) == d.leading_ones
+        assert ispunct.reinterpret.reinterpret_as_uint(c) == d.uint32
+        assert ispunct.unicode.ismalformed(c) == d.is_malformed
+        assert ispunct.unicode.category_code(c) == d.category_code
+
+
 def test_errors_on_str():
     with pytest.raises(TypeError):
         # A multi-character string cannot be interpreted as a character literal

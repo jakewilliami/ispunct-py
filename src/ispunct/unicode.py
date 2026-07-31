@@ -67,6 +67,6 @@ def category_code(c: str) -> int:
     if not ismalformed(c):
         category = unicodedata.category(c)
         code = CATEGORY_CODE_DATA.get(category, 31)
-        return code if ord(c) <= 0x10FFF else 30
+        return code if ord(c) <= 0x10FFFF else 30
 
     return 31

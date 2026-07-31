@@ -117,6 +117,13 @@ def test_is_malformed():
     assert not ispunct.unicode.ismalformed(chr(6969))
 
 
+def test_category_code():
+    assert ispunct.unicode.category_code(chr(18)) == 26
+    assert ispunct.unicode.category_code(chr(185)) == 11
+    assert ispunct.unicode.category_code(chr(6969)) == 6
+    assert ispunct.unicode.category_code(chr(69703)) == 18
+
+
 def test_errors_on_str():
     with pytest.raises(TypeError):
         # A multi-character string cannot be interpreted as a character literal

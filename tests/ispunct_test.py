@@ -1,4 +1,5 @@
 import string
+import unicodedata
 from collections.abc import Iterable
 
 import pytest
@@ -38,6 +39,15 @@ def test_ispunct_str_iterable_all():
 
 def test_is_punct_comprehensive(data):
     for c in data.is_punct:
+        # Need to skip characters that are not yet assigned to keep tests
+        # passing for older versions of Python.  This is because `unicodedata`
+        # bundles the latest Unicode standard in the library, but Unicode 16 is
+        # only released for Python 14.  Older versions of Python can't classify
+        # code points that didn't exist when their `unicodedata` snapshot was
+        # taken.
+        if unicodedata.category(c) == "Cn":
+            continue
+
         assert ispunct.ispunct(c)
 
 
@@ -106,6 +116,11 @@ def test_category_code():
 
 def test_bitwise_comprehensive(data):
     for c, d in data.bitwise.items():
+        # See note in `test_is_punct_comprehensive`; need to skip characters
+        # that are not yet assigned in older versions of Python.
+        if unicodedata.category(c) == "Cn":
+            continue
+
         i = d.integer
         assert ispunct.bits.cttz(i) == d.trailing_zeros
         assert ispunct.bits.ctlz(i) == d.leading_zeros

@@ -6,41 +6,6 @@ import pytest
 import ispunct
 
 
-@pytest.fixture
-def non_punct_chars() -> Iterable[str]:
-    def genchars() -> Iterable[str]:
-        yield from ("א", "ﺵ")
-        yield from ("a", "d", "j", "y", "z")
-        yield from ("α", "β", "γ", "δ", "ф", "я")
-        yield from ("A", "D", "J", "Y", "Z")
-        yield from ("Δ", "Γ", "Π", "Ψ", "Ж", "Д")
-        yield "ǅ"
-        yield from ("0", "1", "5", "9")
-        yield from ("∪", "∩", "⊂", "⊃", "√", "€", "¥", "↰", "△")
-        yield from ("٣", "٥", "٨", "¹", "ⅳ")
-
-    yield genchars()
-
-
-def _non_standard_punct_chars() -> Iterable[str]:
-    yield from ("‡", "؟", "჻", "§")
-
-
-@pytest.fixture
-def punct_chars() -> Iterable[str]:
-    def genchars() -> Iterable[str]:
-        yield from ("(", ")", "~", "$")
-        yield from (".", ",", ";", ":", "&")
-        yield from _non_standard_punct_chars()
-
-    yield genchars()
-
-
-@pytest.fixture
-def non_standard_punct_chars() -> Iterable[str]:
-    yield _non_standard_punct_chars()
-
-
 def test_ispunct_basic():
     assert ispunct.ispunct("?")
     assert not ispunct.ispunct("a")
@@ -69,6 +34,21 @@ def test_ispunct_str_iterable_all():
     assert all(not ispunct.ispunct(c) for c in "  \t   \n   \r  ")
     assert all(not ispunct.ispunct(c) for c in "ΣβΣβ")
     assert all(ispunct.ispunct(c) for c in "‡؟჻")
+
+
+def test_is_punct_comprehensive(data):
+    for c in data.is_punct:
+        assert ispunct.ispunct(c)
+
+
+def test_is_not_punct_comprehensive(data):
+    for c in data.not_punct:
+        # Explicilty skip characters defined in string.punctuation that are
+        # not technically punctuation characters
+        if c in "$+<=>^`|~":
+            continue
+
+        assert not ispunct.ispunct(c)
 
 
 def test_bitmask():

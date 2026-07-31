@@ -16,6 +16,11 @@ def ispunct(c: str) -> int:
 
     Inspired by Julia's `ispunct` function:
       <https://github.com/JuliaLang/julia/blob/7fa26f01/base/strings/unicode.jl#L531-L549>
+
+    !!! note
+        This function should return true wherever the `ispunct` function from C
+        returns true.  However, we extend this beyond the cases handled in the
+        C function by checking the input character's category code.
     """
     c = only(c)
 
@@ -26,4 +31,8 @@ def ispunct(c: str) -> int:
 
     # Case 2: check whether the character's UTF-8 category is part of the
     # punctuation range (categories Po–Pc)
+    #
+    # NOTE: this case alone does not cover $+<=>^`|~ --- these are in the
+    # symbol category.  The base case currently allows our `ispunct` function
+    # to be a superset of C's `ispunct`
     return UTF8PROC_CATEGORY_PC <= category_code(c) <= UTF8PROC_CATEGORY_PO

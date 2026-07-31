@@ -2,6 +2,10 @@
 
 A small Python library for checking whether a character is a punctuation character.
 
+> [!NOTE]
+>
+> Our `ispunct` function should return true wherever C's [`ispunct`](https://en.cppreference.com/cpp/string/byte/ispunct) function returns true.  This is ensured by checking [`string.punctuation`](https://docs.python.org/3/library/string.html#string.punctuation).  However, we **extend** this beyond the cases handled in the C function by checking the input character's category code.
+
 ---
 
 ## Quick Start
